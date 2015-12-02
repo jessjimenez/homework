@@ -6,15 +6,22 @@
 .func main
    
 main:
+    BL  _scanf              @ branch to scanf procedure with return
+    MOV R7, R0              @ move return value R0 to register R7
     MOV R0, #0              @ initialze index variable
 writeloop:
-    CMP R0, #100            @ check to see if we are done iterating
+    CMP R0, #20             @ check to see if we are done iterating
     BEQ writedone           @ exit loop if done
-    LDR R1, =a              @ get address of a
+    LDR R1, =array_a        @ get address of a
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
-    STR R2, [R2]            @ write the address of a[i] to a[i]
-    ADD R0, R0, #1          @ increment index
+    ADD R8, R7, R0          @ R8=n+1
+    STR R8, [R2]            @ store
+    ADD R2, R2, #4          @ R2=address i+1
+    ADD R8, R8, #1          @ n+i+1
+    SUB R8, #0, R8          @ -(n+i+1)
+    STR R8, [R2]            @ store
+    ADD R0, R0, #2          @ increment index by 2
     B   writeloop           @ branch to next loop iteration
 writedone:
     MOV R0, #0              @ initialze index variable
@@ -47,16 +54,28 @@ _exit:
     SWI 0                   @ execute syscall
     MOV R7, #1              @ terminate syscall, 1
     SWI 0                   @ execute syscall
-       
+
 _printf:
     PUSH {LR}               @ store the return address
     LDR R0, =printf_str     @ R0 contains formatted string address
     BL printf               @ call printf
     POP {PC}                @ restore the stack pointer and return
-   
+
+_scanf:
+    MOV R4, LR              @ store LR since scanf call overwrites
+    SUB SP, SP, #4          @ make room on stack
+    LDR R0, =format_str     @ R0 contains address of format string
+    MOV R1, SP              @ move SP to R1 to store entry on stack
+    BL scanf                @ call scanf
+    LDR R0, [SP]            @ load value at SP into R0
+    ADD SP, SP, #4          @ restore the stack pointer
+    MOV PC, R4              @ return   
+
 .data
 
 .balign 4
-a:              .skip       400
+array_a:              .skip       80
+array_b:              .skip       80
+format_str:     .asciz      "%d"
 printf_str:     .asciz      "a[%d] = %d\n"
 exit_str:       .ascii      "Terminating program.\n"
