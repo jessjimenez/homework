@@ -64,7 +64,11 @@ _scanf:
     BL scanf                @ call scanf
     LDR R0, [SP]            @ load value at SP into R0
     ADD SP, SP, #4          @ restore the stack pointer
-    MOV PC, R4              @ return   
+    MOV PC, R4              @ return 
+    
+/* _sort_ascending:*/
+/*getting an error when I try git pull now so. this is where I'm at.*/
+ 
 
 .data
 
@@ -72,5 +76,5 @@ _scanf:
 array_a:        .skip       80
 array_b:        .skip       80
 format_str:     .asciz      "%d"
-printf_str:     .asciz      "a[%d] = %d --- %d\n"
+printf_str:     .asciz      "a[%d] = %d\n"
 exit_str:       .ascii      "Terminating program.\n"
