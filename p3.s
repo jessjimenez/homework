@@ -28,7 +28,7 @@ writedone:
 readloop:
     CMP R0, #20             @ check to see if we are done iterating
     BEQ readdone            @ exit loop if done
-    @LDR R1, =a              @ get address of a
+    @LDR R1, =array_a              @ get address of a
     LDR R7, =array_b
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
@@ -72,5 +72,5 @@ _scanf:
 array_a:              .skip       80
 array_b:              .skip       80
 format_str:     .asciz      "%d"
-printf_str:     .asciz      "a[%d] = %d\n"
+printf_str:     .asciz      "a[%d] = %d --- %d\n"
 exit_str:       .ascii      "Terminating program.\n"
