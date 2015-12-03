@@ -6,10 +6,13 @@
 .func main
    
 main:
+    
+    MOV R0, #0              @ initialze index variable
+_generate:
     BL  _scanf              @ branch to scanf procedure with return
     MOV R7, R0              @ move return value R0 to register R7
-    MOV R0, #0              @ initialze index variable
-writeloop:
+    MOV R0, #0 
+    
     CMP R0, #20             @ check to see if we are done iterating
     BEQ writedone           @ exit loop if done
     LDR R1, =array_a        @ get address of a
@@ -22,7 +25,7 @@ writeloop:
     SUB R8, #0, R8          @ -(n+i+1)
     STR R8, [R2]            @ store
     ADD R0, R0, #2          @ increment index by 2
-    B   writeloop           @ branch to next loop iteration
+    B   _generate           @ branch to next loop iteration
 writedone:
     MOV R0, #0              @ initialze index variable
 readloop:
@@ -69,8 +72,8 @@ _scanf:
 .data
 
 .balign 4
-array_a:              .skip       80
-array_b:              .skip       80
+array_a:        .skip       80
+array_b:        .skip       80
 format_str:     .asciz      "%d"
 printf_str:     .asciz      "a[%d] = %d --- %d\n"
 exit_str:       .ascii      "Terminating program.\n"
