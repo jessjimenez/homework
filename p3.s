@@ -1,5 +1,6 @@
 /******************************************************************************
-* from array.s
+* Jessica Jimenez. Program 3. 12/02/2015.
+* used array.s and scanf.s
 ******************************************************************************/
  
 .global main
@@ -27,7 +28,7 @@ writedone:
     MOV R0, #0              @ initialze index variable
 readloop:
     CMP R0, #20             @ check to see if we are done iterating
-    BEQ readdone            @ exit loop if done
+    BEQ _printf            @ print loop if done
     LDR R1, =array_a              @ get address of a
     LDR R7, =array_b
     LSL R2, R0, #2          @ multiply index*4 to get array offset
@@ -38,17 +39,6 @@ readloop:
     BL  _printf             @ branch to print procedure with return
     ADD R0, R0, #1          @ increment index
     B   readloop            @ branch to next loop iteration
-readdone:
-    B _exit                 @ exit if done
-    
-_exit:  
-    MOV R7, #4              @ write syscall, 4
-    MOV R0, #1              @ output stream to monitor, 1
-    MOV R2, #21             @ print string length
-    LDR R1, =exit_str       @ string at label exit_str:
-    SWI 0                   @ execute syscall
-    MOV R7, #1              @ terminate syscall, 1
-    SWI 0                   @ execute syscall
 
 _printf:
     PUSH {LR}               @ store the return address
