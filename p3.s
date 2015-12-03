@@ -65,6 +65,7 @@ _scanf:
 .balign 4
 array_a:        .skip       80
 array_b:        .skip       80
+
 format_str:     .asciz      "%d"
-printf_str:     .asciz      "a[%d] = %d\n"
-exit_str:       .ascii      "Terminating program.\n"
+printf_str:     .asciz      "array_a[%d] = %d, array_b = %d \n" @array_a[0] = x, array_b = y
+
