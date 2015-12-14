@@ -54,5 +54,5 @@ _printf:
 
 .balign 4
 a:              .skip       40
-printf_str:     .asciz      "a[%d] = %d\n"
+printf_str:     .asciz      "array_a[%d] = %d\n minimum = \n maximum = \n sum\n"
 exit_str:       .ascii      "Terminating program.\n"
